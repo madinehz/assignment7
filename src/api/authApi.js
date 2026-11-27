@@ -1,4 +1,4 @@
-const DEMO_USERNAME = "your.email@stu.biruni.edu.tr";
+const DEMO_USERNAME = "230408909@st.biruni.edu.tr";
 const DEMO_PASSWORD = "demo123456";
 
 export function login(username, password) {
