@@ -19,11 +19,18 @@ export function useFetch(fetcher, deps) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
+    const controller = new AbortController();
     dispatch({ type: "FETCH_START" });
 
-    fetcher()
+    fetcher(controller.signal)
       .then((data) => dispatch({ type: "FETCH_SUCCESS", payload: data }))
-      .catch((error) => dispatch({ type: "FETCH_ERROR", payload: error }));
+      .catch((error) => {
+        if (error.name !== "AbortError") {
+          dispatch({ type: "FETCH_ERROR", payload: error });
+        }
+      });
+
+    return () => controller.abort();
   }, deps);
 
   return state;
